@@ -13,6 +13,8 @@ public class KMP {
         System.out.println("Pattern " + pattern + " found at indices " + matches);
 
         System.out.println("Pattern ASDF not found " + kmpSearch(dnaSequence, "ASDF"));
+
+        System.out.println(longestPrefixSuffix("ABABCABAB"));
     }
 
     // KMP search: returns starting indices of all matches
@@ -47,21 +49,20 @@ public class KMP {
 
     public static int[] longestPrefixSuffix(String pattern) {
         int[] lps = new int[pattern.length()];
-        int j = 0, i = 1;
         int left = 0, right = 1;
-        while (i < pattern.length()) {
-            if (pattern.charAt(i) == pattern.charAt(j)) {
+        while (right < pattern.length()) {
+            if (pattern.charAt(right) == pattern.charAt(left)) {
                 // match, same character repeats, record and try next
-                j++;
-                lps[i] = j;
-                i++;
+                left++;
+                lps[right] = left;
+                right++;
             } else {
-                if (j != 0) {
+                if (left != 0) {
                     // repeat previous char
-                    j = lps[j - 1];
+                    left = lps[left - 1];
                 } else {
-                    lps[i] = 0;
-                    i++;
+                    lps[right] = 0;
+                    right++;
                 }
             }
         }
